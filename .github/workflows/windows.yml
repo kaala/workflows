@@ -1,4 +1,4 @@
-name: indows-latest
+name: windows-latest
 on: [workflow_dispatch]
 jobs:
   indows-latest:
