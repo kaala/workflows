@@ -1,4 +1,4 @@
-name: auto-build
+name: build-job
 on: [workflow_dispatch]
 jobs:
   windows-build:
