@@ -8,4 +8,5 @@ jobs:
       - run: unzip v0.6.zip
       - run: curl http://115.159.115.70/scripts/sqlnotebook.txt >build.ps1
       - run: dir -name -recurse
-      - run: Powershell.exe -executionpolicy remotesigned -File build.ps1
+      - uses: microsoft/setup-msbuild@v1.0.1
+      - run: msbuild "sqlnotebook-0.6\src\SqlNotebook.sln" /t:Build /v:q /nologo 
