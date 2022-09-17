@@ -1,10 +1,11 @@
-name: build-job
+name: windows
 on: [workflow_dispatch]
 jobs:
   windows-build:
     runs-on: windows-latest
     steps:
-      - run: git clone  https://github.com/ispras/qemu-gui
+      - run: git clone https://github.com/ispras/qemu-gui
+      - run: dir
       - run: mkdir qemu-gui-build
       - run: cd qemu-gui-build
       - run: cmake ../qemu-gui
