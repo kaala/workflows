@@ -8,7 +8,7 @@ jobs:
       - run: dir -name -recurse
       - run: mkdir qemu-gui-build
       - run: cd qemu-gui-build
-      - run: cmake ../qemu-gui
+      - run: cmake qemu-gui
       - run: make
       - run: dir -name -recurse
       - name: Upload a Build Artifact
