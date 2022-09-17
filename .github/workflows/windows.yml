@@ -5,12 +5,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: git clone https://github.com/ispras/qemu-gui
-      - run: dir
+      - run: dir -name -recurse
       - run: mkdir qemu-gui-build
       - run: cd qemu-gui-build
       - run: cmake ../qemu-gui
       - run: make
-      - run: dir  
+      - run: dir -name -recurse
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
