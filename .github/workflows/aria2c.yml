@@ -1,0 +1,75 @@
+name: aria2c
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+        os: [12]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+
+    - name: Install dependencies
+      run: |
+        brew install expat cppunit gettext openssl libssh2 c-ares sqlite3 \
+        autoconf automake pkg-config libtool libuv libxml2 zlib upx libuv
+        brew link expat
+        
+        
+    - name: Build aria2c
+      run: |  
+        # expat
+        export LIBEXPAT_LIBS="-L/usr/local/opt/expat/lib"
+        export LIBEXPAT_CFLAGS="-I/usr/local/opt/expat/include"   
+        export LDFLAGS="-L/usr/local/lib"
+        export CPPFLAGS="-I/usr/local/include"
+        git clone https://github.com/aria2/aria2.git
+        cd aria2
+        autoreconf -i
+        ./configure -h
+        ./configure \
+          --enable-static \
+          --with-openssl=/usr/local/opt/openssl \
+          --with-libssh2 \
+          --with-libcares \
+          --with-libexpat \
+          --with-libsqlite3 \
+          --with-libxml2 \
+          --with-zlib \
+          --enable-bittorrent \
+          --enable-metalink \
+          --enable-xml-rpc \
+          --enable-websocket \
+          --enable-websocket-via-libwebsockets \
+          --enable-utf8-only \
+          --enable-largefile \
+          --enable-async-dns \
+          --enable-ftp \
+          --enable-sftp \
+          --enable-http \
+          --enable-segment-allocation \
+          --enable-libaria2 \
+          --disable-nls \
+          --enable-shared=no \
+          ARIA2_STATIC=yes
+        make -j`sysctl -n machdep.cpu.thread_count`
+        make install
+
+    - name: Set executable permissions & strip
+      run: |     
+        ARIA2C_PATH=$(which aria2c)
+        mkdir ./artifact/
+        cp $(which aria2c) ./artifact/aria2c
+        strip ./artifact/aria2c
+
+    - name: upload macOS aria2c
+      uses: actions/upload-artifact@master
+      with:
+        name: aria2c-macos-${{ matrix.arch }}
+        path: ./artifact/
